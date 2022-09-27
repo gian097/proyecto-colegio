@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Colegios</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+    a{
+    color:white;
+    }
+    a:hover {
+    color: black;
+    text-decoration:none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <p th:inline="text" class="text-right">User: [[${#httpServletRequest.remoteUser}]]</p>
+  <!--  <button type="button" class="btn btn-danger" style="float:right"><a th:href="@{/logout}">Cerrar Sesión</a></button>-->
+    <h1><p style="text-align:center"> Lista de Colegios </p></h1>
+    <!--Dibujamos la tabla-->
+    <br><table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Telefono</th>
+            <th>NIT</th>
+            <th>Empleados</th>
+            <th>Movimientos</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+
+        </tr>
+
+        <!--Llenamos la tabla dibujada-->
+        <!--En nuestro controller, creamos en viewColegio un modelo con un atributo llamado colelist donde esta guardada la lista de todas los Colegios-->
+        <tr th:each="colegio : ${colelist}">
+            <td th:text="${colegio.id}"></td>
+            <td th:text="${colegio.nombre}"></td>
+            <td th:text="${colegio.direccion}"></td>
+            <td th:text="${colegio.telefono}"></td>
+            <td th:text="${colegio.NIT}"></td>
+            <td><button type="button" class="btn btn-info"><a th:href="@{/Colegio/{id}/Empleados (id=${colegio.id})}">Ver</a></button></td>
+            <td><button type="button" class="btn btn-primary"><a th:href="@{/Colegio/{id}/Movimientos (id=${colegio.id})}">Ver</a></button></td>
+            <td><button type="button" class="btn btn-warning"><a th:href="@{/EditarColegio/{id}(id=${colegio.id})}">Editar</a></button></td>
+            <td><button type="button" class="btn btn-danger"><a th:href="@{/EliminarColegio/{id}(id=${colegio.id})}">Eliminar</a></button></td>
+        </tr>
+    </table>
+    <br><br>
+    <button type="button" class="btn btn-danger" style="float:left"><a th:href="@{/logout}">Cerrar Sesión</a></button>
+    <br><br>
+    <!-- vamos a crear un boton que sirva para agregar nuevos Colegios -->
+    <button type="button" class="btn btn-info"><a th:href="@{/AgregarColegio}">Agregar Nuevo Colegio</a></button>
+    <br><br>
+    <button type="button" class="btn btn-primary"><a th:href="@{/VerEmpleados}">Ver lista de Empleados</a></button>
+
+</div>
+
+<script th:inline="javascript">
+    window.onload=function(){
+
+        var msg= [[${mensaje}]];
+        if (msg == "saveOK"){
+            Command : toastr["success"]("Colegio creado con éxito!")
+            }
+        else if (msg == "updateOK"){
+            Command : toastr["success"]("Colegio actualizado con éxito!")
+        }
+        else if (msg == "deleteOK"){
+            Command : toastr["error"]("Colegio eliminado con éxito!")
+        }
+        else if (msg == "deleteError"){
+            Command : toastr["error"]("Colegio no ha sido eliminado!")
+        }
+        toastr.options={
+            "positionClass": "toast-top-right",
+            "showDuration":"300",
+            "showMethod":"fadeIn",
+            "hideMethod":"fadeOut",
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>
