@@ -14,7 +14,10 @@
 	<name>Colegio</name>
 	<description>D3KCTech - Proyecto para el ciclo 3 Mision TIC 2022</description>
 	<properties>
-		<java.version>14</java.version>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+ 	        <maven.compiler.target>11</maven.compiler.target>
+
 	</properties>
 	<dependencies>
 		<dependency>
